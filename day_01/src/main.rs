@@ -14,16 +14,21 @@ fn read_file(path: &str) -> (Vec<i32>, Vec<i32>) {
     tuple
 }
 
+fn task_1(list1: &Vec<i32>, list2: &Vec<i32>) -> i32 {
+    let result = list1
+        .iter()
+        .zip(list2.iter())
+        .map(|(x, y)| (x - y).abs())
+        .fold(0, |acc, v| v + acc);
+    result
+}
+
 fn main() {
     let (test_input_1, test_input_2) = read_file("input.input");
     // let mut test_input_1: Vec<i32> = vec![3, 4, 2, 1, 3, 3];
     // let mut test_input_2: Vec<i32> = vec![4, 3, 5, 3, 9, 3];
     // test_input_1.sort();
     // test_input_2.sort();
-    let result = test_input_1
-        .iter()
-        .zip(test_input_2.iter())
-        .map(|(x, y)| (x - y).abs())
-        .fold(0, |acc, v| v + acc);
-    println!("Input 1: {:#?}", result);
+
+    println!("Input 1: {:#?}", task_1(&test_input_1, &test_input_2));
 }
