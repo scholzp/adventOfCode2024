@@ -1,18 +1,18 @@
-use core::num;
 use std::fs::{self, File};
 use std::io::Read;
 use std::result;
 
-fn read_file(path: &str) -> (Vec<i32>, Vec<i32>) {
+fn read_file(path: &str) -> Vec<Vec<i32>> {
     let content = fs::read_to_string(path).expect("IO Error!");
-    let mut tuple: (Vec<i32>, Vec<i32>) = content
+    let mut result: Vec<_> = content
         .split('\n')
-        .map(|v| v.split_once("   ").expect("Couldn't split"))
-        .map(|(l, r)| (l.parse::<i32>().unwrap(), r.parse::<i32>().unwrap()))
-        .unzip();
-    tuple.0.sort();
-    tuple.1.sort();
-    tuple
+        .map(|line|
+            line.split(' ')
+            .map(|number| number.parse::<i32>().unwrap())
+            .collect::<Vec<i32>>()
+        )
+        .collect();
+    result
 }
 
 fn task_1(input: &Vec<Vec<i32>>) -> usize {
@@ -49,5 +49,8 @@ fn main() {
         vec![8, 6, 4, 4, 1],
         vec![1, 3, 6, 7, 9],
     ];
+
     println!("Number of safe of example: {}", task_1(&example_data));
+    println!("Number of safe of example: {}", task_1(&read_file("input.input")));
+
 }
