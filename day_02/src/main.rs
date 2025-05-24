@@ -8,7 +8,7 @@ fn read_file(path: &str) -> Vec<Vec<i32>> {
         .split('\n')
         .map(|line|
             line.split(' ')
-            .map(|number| number.parse::<i32>().unwrap())
+            .filter_map(|number| number.parse::<i32>().ok())
             .collect::<Vec<i32>>()
         )
         .collect();
