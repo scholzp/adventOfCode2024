@@ -18,11 +18,17 @@ fn read_file(path: &str) -> Vec<Vec<i32>> {
 fn task_1(input: &Vec<Vec<i32>>) -> usize {
     input
         .into_iter()
+        // Map vectors to criteria
         .map(|vec| {
             let mut iter = vec.into_iter().peekable();
             let mut monoton = 0;
             let mut max_distance = 0;
             while let Some(value) = iter.next() {
+                // Use bits of monoton to flag if the the vector contains two
+                // succeeding values which increase, decrease or stays same.
+                // Bit 0: found increasing value
+                // Bit 1: found decreasing value
+                // Bit 2: found equivalence
                 if let Some(num) = iter.peek() {
                     monoton |= if *value < **num { 1 } else { 0 };
                     monoton |= if *value > **num { 2 } else { 0 };
@@ -36,6 +42,7 @@ fn task_1(input: &Vec<Vec<i32>>) -> usize {
             // Two criteria: Monotony and distance is less then 4
             (monoton == 2 || monoton == 1, max_distance < 4)
         })
+        // Remove all vectors that don't meet criteria
         .filter(|(x, y)| *x && *y)
         .count()
 }
@@ -50,7 +57,7 @@ fn main() {
         vec![1, 3, 6, 7, 9],
     ];
 
-    println!("Number of safe of example: {}", task_1(&example_data));
-    println!("Number of safe of example: {}", task_1(&read_file("input.input")));
+    println!("Task 1: Safe in example: {}", task_1(&example_data));
+    println!("Task 1: Safe of input:   {}", task_1(&read_file("input.input")));
 
 }
